@@ -57,7 +57,7 @@ xi.settings.map =
     -- Max open listings per player, 0 = no limit. (Default 7)
     -- Note = Settings over 7 may need client-side plugin to work under all circumstances.
     -- If this is the case, consider using the ah_pagination module (which supports setting AH_LIST_LIMIT to 0 or >7).
-    AH_LIST_LIMIT = 7,
+    AH_LIST_LIMIT = 36,
 
     -- The total enmity cap for a given entity on the enmity table.
     -- 30,000 is believed to be approximately current retail cap.
@@ -76,20 +76,20 @@ xi.settings.map =
     EXP_RETAIN = 0,
 
     -- Minimum level at which experience points can be lost
-    EXP_LOSS_LEVEL = 31,
+    EXP_LOSS_LEVEL = 300,
 
     -- Enable/Disable pre-Abyssea experience point loss tiers. set true with EXP_LOSS_LEVEL = 4, for pre-Abyssea experience point loss behavior. https://wiki.ffo.jp/html/15196.html
     USE_PRE_ABYSSEA_EXP_LOSS_TIERS = false,
 
     -- Minimum level at which regional influence is lost in conquest when a player dies
     -- Level 5 and below don't lose influence: http://wiki.ffo.jp/html/498.html
-    MINIMUM_LEVEL_CONQUEST_INFUENCE_LOSS = 6,
+    MINIMUM_LEVEL_CONQUEST_INFUENCE_LOSS = 1,
 
     -- Enable/disable Level Sync
-    LEVEL_SYNC_ENABLE = true,
+    LEVEL_SYNC_ENABLE = false,
 
     -- Disables ability to equip higher level gear when level cap/sync effect is on player.
-    DISABLE_GEAR_SCALING = false,
+    DISABLE_GEAR_SCALING = true,
 
     -- Disables Treasure Hunter procs (Era behavior wants this true)
     DISABLE_TREASURE_HUNTER_PROCS = false,
@@ -98,13 +98,13 @@ xi.settings.map =
     ENABLE_AUTO_ATTACK_LUA = false,
 
     -- Weaponskill point base (before skillchain) for breaking latent - whole numbers only. retail is 5.
-    WS_POINTS_BASE = 5,
+    WS_POINTS_BASE = 1,
 
     -- Weaponskill points per skillchain level - whole numbers only, retail is 2
     WS_POINTS_SKILLCHAIN = 2,
 
     -- Enable/disable jobs other than BST and RNG having widescan
-    ALL_JOBS_WIDESCAN = true,
+    ALL_JOBS_WIDESCAN = false,
 
     -- Base player movement speed
     BASE_SPEED = 50,
@@ -137,10 +137,10 @@ xi.settings.map =
     GARDEN_MH_AURA_MATTERS   = false,
 
     -- Use current retail skill up rates and margins (Retail = High Skill-Up rate; Skill-Up when at or under 10 levels above synth recipe level.)
-    CRAFT_MODERN_SYSTEM = true,
+    CRAFT_MODERN_SYSTEM = false,
 
     -- Craft level limit from witch specialization points beginning to count. (Retail = 700; Level 75 era:600)
-    CRAFT_COMMON_CAP = 700,
+    CRAFT_COMMON_CAP = 600,
 
     -- Amount of points allowed in crafts over the level defined above. Points are shared across all crafting skills. (Retail = 400; All skills can go to max = 3200)
     CRAFT_SPECIALIZATION_POINTS = 400,
@@ -149,7 +149,7 @@ xi.settings.map =
     CRAFT_HQ_CHANCE_MULTIPLIER = 1.0,
 
     -- Enable/disable all fishing, including quests. ENABLE AT YOUR OWN RISK.
-    FISHING_ENABLE = false,
+    FISHING_ENABLE = true,
 
     -- Sets the minimum level a character must be to fish.
     FISHING_MIN_LEVEL = 1,
@@ -186,7 +186,8 @@ xi.settings.map =
     -- 1            = 1/2   (default, 75/37, 99/49)
     -- 2            = 2/3   (75/50, 99/66)
     -- 3            = equal (75/75, 99/99)
-    SUBJOB_RATIO = 1,
+    -- 4            = Doomtrain unlinked MJ and SJ
+    SUBJOB_RATIO = 4,
 
     -- Also adjust monsters subjob in ratio adjustments? 1 = true / 0 = false
     INCLUDE_MOB_SJ = false,
@@ -221,14 +222,14 @@ xi.settings.map =
     MAX_GIL_BONUS = 9999,
 
     -- Allow mobs to walk back home instead of despawning
-    MOB_NO_DESPAWN = false,
+    MOB_NO_DESPAWN = true,
 
     -- Adds extra time to mob despawn in seconds. Base time is 25s, so a setting of 5 here would be a total of 30 seconds.
-    MOB_ADDITIONAL_TIME_TO_DEAGGRO = 0,
+    MOB_ADDITIONAL_TIME_TO_DEAGGRO = 95,
 
     -- Allows parry, block, and guard to skill up regardless of the action occuring.
     -- This did not happen in previous eras
-    DEFENSIVE_OLD_SKILLUP_STYLE = false,
+    DEFENSIVE_OLD_SKILLUP_STYLE = true,
 
     -- Globally adjusts ALL battlefield level caps by this many levels.
     BATTLE_CAP_TWEAK = 0,
@@ -248,10 +249,10 @@ xi.settings.map =
     YELL_COOLDOWN = 30,
 
     -- Prevent players from sending tells to hidden GMs. You will still receive them from other GMs.
-    BLOCK_TELL_TO_HIDDEN_GM = false,
+    BLOCK_TELL_TO_HIDDEN_GM = true,
 
     -- Prevent players from performing WS while unengaged using packet injection.
-    PREVENT_UNENGAGED_WS = false,
+    PREVENT_UNENGAGED_WS = true,
 
     -- Don't leak the target of non PCs readying items/casting spells/using mobskills. Essentially, server side kills the info the targetlines addon uses.
     -- This will also make battlemod/simplelog show self target on spells
@@ -259,7 +260,7 @@ xi.settings.map =
 
     -- Command Audit [logging] commands with lower permission than this will not be logged.
     -- Zero for no logging at all. Commands given to non GMs are not logged.
-    AUDIT_GM_CMD = false,
+    AUDIT_GM_CMD = true,
 
     -- Todo = other logging including anti-cheat messages
 
@@ -295,7 +296,7 @@ xi.settings.map =
     -- Despawn jug pets that have a minimum level below level sync or zone level restriction.
     -- Such as despawning Courier Carrie in a level 20 cap when their minimum level to summon is 23.
     -- While the default value of false is retail accurate, there are some balance concerns such as using 1000 needles at low levels from the cactuar pet.
-    DESPAWN_JUGPETS_BELOW_MINIMUM_LEVEL = false,
+    DESPAWN_JUGPETS_BELOW_MINIMUM_LEVEL = true,
 
     -- Send stack traces to the client after caught Lua errors if
     -- their GM level is the same or higher than this number.

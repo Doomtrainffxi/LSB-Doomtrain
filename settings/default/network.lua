@@ -15,7 +15,7 @@ xi.settings.network =
     SQL_PORT     = 3306,
     SQL_LOGIN    = 'root',
     SQL_PASSWORD = 'root',
-    SQL_DATABASE = 'xidb',
+    SQL_DATABASE = 'xidb_dt_alpha',
 
     LOGIN_DATA_IP   = '0.0.0.0',
     LOGIN_DATA_PORT = 54230,

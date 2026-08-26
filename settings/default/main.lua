@@ -12,7 +12,7 @@ xi.settings = xi.settings or {}
 xi.settings.main =
 {
     -- Server name (not longer than 15 characters)
-    SERVER_NAME = 'Nameless',
+    SERVER_NAME = 'DOOMTRAIN',
 
     SERVER_MESSAGE =
         'Please visit https://github.com/LandSandBoat/server for the latest information on the project.\n' ..
@@ -45,16 +45,16 @@ xi.settings.main =
     -- FIELDS OF VALOR/Grounds of Valor settings
     ENABLE_FIELD_MANUALS  = 1, -- Enables Fields of Valor
     ENABLE_GROUNDS_TOMES  = 1, -- Enables Grounds of Valor
-    ENABLE_SURVIVAL_GUIDE = 1, -- Enables Survival Guides (Not Implemented)
+    ENABLE_SURVIVAL_GUIDE = 0, -- Enables Survival Guides (Not Implemented)
     REGIME_WAIT           = 1, -- Make people wait till 00:00 game time as in retail. If it's 0, there is no wait time.
     FOV_REWARD_ALLIANCE   = 0, -- Allow Fields of Valor rewards while being a member of an alliance. (default retail behavior: 0)
-    GOV_REWARD_ALLIANCE   = 1, -- Allow Grounds of Valor rewards while being a member of an alliance. (default retail behavior: 1)
+    GOV_REWARD_ALLIANCE   = 0, -- Allow Grounds of Valor rewards while being a member of an alliance. (default retail behavior: 1)
 
     -- Daily points / Gobbie mystery box.
-    ENABLE_DAILY_TALLY = 1,  -- Allows acquisition of daily points for gobbie mystery box.
-    DAILY_TALLY_AMOUNT = 10,
-    DAILY_TALLY_LIMIT  = 50000,
-    GOBBIE_BOX_MIN_AGE = 45, -- Minimum character age in days before a character can sign up for Gobbie Mystery Box
+    ENABLE_DAILY_TALLY = 0,  -- Allows acquisition of daily points for gobbie mystery box.
+    DAILY_TALLY_AMOUNT = 0,
+    DAILY_TALLY_LIMIT  = 0,
+    GOBBIE_BOX_MIN_AGE = 999999, -- Minimum character age in days before a character can sign up for Gobbie Mystery Box
 
     -- A.M.A.N.
     ASSIST_CHANNEL_ENABLED            = true, -- Enable Assist Channel
@@ -114,8 +114,8 @@ xi.settings.main =
     START_GIL                      = 10, -- Amount of gil given to newly created characters.
     START_INVENTORY                = 30, -- Starting inventory and satchel size.  Ignores values < 30.  Do not set above 80!
     NEW_CHARACTER_CUTSCENE         = 1,  -- Set to 1 to enable opening cutscenes, 0 to disable.
-    SUBJOB_QUEST_LEVEL             = 18, -- Minimum level to accept either subjob quest.  Set to 0 to start the game with subjobs unlocked.
-    ADVANCED_JOB_LEVEL             = 30, -- Minimum level to accept advanced job quests.  Set to 0 to start the game with advanced jobs.
+    SUBJOB_QUEST_LEVEL             = 0, -- Minimum level to accept either subjob quest.  Set to 0 to start the game with subjobs unlocked.
+    ADVANCED_JOB_LEVEL             = 0, -- Minimum level to accept advanced job quests.  Set to 0 to start the game with advanced jobs.
     ALL_MAPS                       = 0,  -- Set to 1 to give starting characters all the maps.
     UNLOCK_OUTPOST_WARPS           = 0,  -- Set to 1 to give starting characters all outpost warps.  2 to add Tu'Lia and Tavnazia.
 
@@ -123,10 +123,10 @@ xi.settings.main =
     GIL_RATE            = 1.000, -- Multiplies gil earned from quests.  Won't always display in game.
     BAYLD_RATE          = 1.000, -- Multiples bayld earned from quests.
     -- Note: EXP rates are also influenced by conf setting
-    EXP_RATE            = 1.000, -- Multiplies exp from script (except FoV/GoV).
-    BOOK_EXP_RATE       = 1.000, -- Multiplies exp from FoV/GoV book pages.
+    EXP_RATE            = 0.000, -- Multiplies exp from script (except FoV/GoV).
+    BOOK_EXP_RATE       = 0.000, -- Multiplies exp from FoV/GoV book pages.
     TABS_RATE           = 1.000, -- Multiplies tabs earned from fov.
-    ROE_EXP_RATE        = 1.000, -- Multiplies exp earned from records of eminence.
+    ROE_EXP_RATE        = 0.000, -- Multiplies exp earned from records of eminence.
     SPARKS_RATE         = 1.000, -- Multiplies sparks earned from records of eminence.
     CURE_POWER          = 1.000, -- Multiplies amount healed from Healing Magic, including the relevant Blue Magic.
     ELEMENTAL_POWER     = 1.000, -- Multiplies damage dealt by Elemental and non-drain Dark Magic.
@@ -139,34 +139,34 @@ xi.settings.main =
     DELAY_REDUCTION_CAP = 0.80,  -- Set the cap for melee swing haste effect. (0.80 = 80% retail delay reduction max, 0.93 = 93% ToAU delay reduction max)
 
     -- STR:ATT/RATT ratios. For players only. Mobs are hardcoded to 0.5
-    TWO_HANDED_STR_ATTACK_MULTIPLIER         = 1.0,  -- 1.0: 1 STR = 1 Attack. This has been 0.5 and 0.75 in previous eras
-    HAND_TO_HAND_STR_ATTACK_MULTIPLIER       = 1.0,  -- 1.0: 1 STR = 1 Attack. This has been 0.5 and 0.625 in previous eras.
-    ONE_HAND_MAIN_HAND_STR_ATTACK_MULTIPLIER = 0.75, -- 0.75: 1 STR = 0.75 Attack. This has been 0.5 in previous eras.
+    TWO_HANDED_STR_ATTACK_MULTIPLIER         = 0.5,  -- 1.0: 1 STR = 1 Attack. This has been 0.5 and 0.75 in previous eras
+    HAND_TO_HAND_STR_ATTACK_MULTIPLIER       = 0.5,  -- 1.0: 1 STR = 1 Attack. This has been 0.5 and 0.625 in previous eras.
+    ONE_HAND_MAIN_HAND_STR_ATTACK_MULTIPLIER = 0.5, -- 0.75: 1 STR = 0.75 Attack. This has been 0.5 in previous eras.
     ONE_HAND_OFF_HAND_STR_ATTACK_MULTIPLIER  = 0.5,  -- 0.5: 1 STR = 0.5 Attack. This has always been 0.5 but is provided anyway.
-    RANGED_STR_ATTACK_MULTIPLIER             = 1.0,  -- 1.0: 1 STR = 1.0 Ranged Attack. This has been 0.5 and 0.75 in previous eras.
+    RANGED_STR_ATTACK_MULTIPLIER             = 0.5,  -- 1.0: 1 STR = 1.0 Ranged Attack. This has been 0.5 and 0.75 in previous eras.
 
     -- DEX:ACC ratios. For players only. Mobs are hardcoded to 0.5
-    TWO_HANDED_DEX_ACCURACY_MULTIPLIER         = 0.75, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 and 0.75 in previous eras
-    HAND_TO_HAND_DEX_ACCURACY_MULTIPLIER       = 0.75, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
-    ONE_HAND_MAIN_HAND_DEX_ACCURACY_MULTIPLIER = 0.75, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
-    ONE_HAND_OFF_HAND_DEX_ACCURACY_MULTIPLIER  = 0.75, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
+    TWO_HANDED_DEX_ACCURACY_MULTIPLIER         = 0.50, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 and 0.75 in previous eras
+    HAND_TO_HAND_DEX_ACCURACY_MULTIPLIER       = 0.50, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
+    ONE_HAND_MAIN_HAND_DEX_ACCURACY_MULTIPLIER = 0.50, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
+    ONE_HAND_OFF_HAND_DEX_ACCURACY_MULTIPLIER  = 0.50, -- 0.75: 1 DEX = 0.75 Accuracy. This has been 0.5 in previous eras.
 
     -- AGI:RACC ratio. Mobs are hardcoded to 0.5
-    RANGED_AGI_ACCURACY_MULTIPLIER = 0.75, -- 0.75: 1 AGI = 0.75 Ranged Accuracy. This has been 0.5 in previous eras.
+    RANGED_AGI_ACCURACY_MULTIPLIER = 0.50, -- 0.75: 1 AGI = 0.75 Ranged Accuracy. This has been 0.5 in previous eras.
 
     -- VIT:DEF ratio. Applies to everything but mobs and charmed mobs. Those are hardcoded to 0.5.
-    PLAYER_ALLIES_VIT_DEF_MULTIPLIER = 1.5, -- 1.5: 1 VIT = 1.5 DEF. This has been 0.5 in previous eras.
+    PLAYER_ALLIES_VIT_DEF_MULTIPLIER = 0.50, -- 1.5: 1 VIT = 1.5 DEF. This has been 0.5 in previous eras.
 
     -- Ranged Attack Free Phase Delay (in milliseconds) - The delay before a ranged attack can be executed after the player puts away their weapon. Default is 500 milliseconds. (Use 1200 for pre-2012 setting)
-    RANGED_ATTACK_FREE_PHASE_DELAY = 500,
+    RANGED_ATTACK_FREE_PHASE_DELAY = 1200,
 
     USE_ADOULIN_WEAPON_SKILL_CHANGES = true,  -- true/false. Change to toggle new Adoulin weapon skill damage calculations
     ENABLE_IMMUNOBREAK               = true,  -- true/false. Allow/Disallow immunobreaks to happen.
     ENABLE_SMN_MAGIC_CAST_TIME_MERIT = true,  -- true/false. If false, the Summoning Magic Casting Time merit has no effect on cast time (pre-2012 behavior).
 
     -- TRUSTS
-    ENABLE_TRUST_CASTING           = 1,
-    ENABLE_TRUST_QUESTS            = 1,
+    ENABLE_TRUST_CASTING           = 0,
+    ENABLE_TRUST_QUESTS            = 0,
     ENABLE_TRUST_CUSTOM_ENGAGEMENT = 0,
 
     ENABLE_LIMITED_TIME_TRUST = 0, -- 0 = disabled, 1 = Cornelia, 2 = Matsui-P, will get automatically added to players trust list if the player has a trust permit KI.
@@ -186,7 +186,7 @@ xi.settings.main =
         '\129\153\129\154 The Alter Ego Expo Campaign is active! \129\154\129\153\n' ..
         'Trusts gain the benefits of Increased HP, MP, and Status Resistances!',
 
-    ENABLE_HELM_WAIT        = false, -- Enforces a 3 second wait between HELM gathering attempts.
+    ENABLE_HELM_WAIT        = true, -- Enforces a 3 second wait between HELM gathering attempts.
 
     HEALING_TP_CHANGE       = -100, -- Change in TP for each healing tick. Default is -100
 
@@ -211,11 +211,11 @@ xi.settings.main =
     GARRISON_TIME_LIMIT    = 1800,  -- Time in seconds before lose ongoing garrison (default: 1800)
     GARRISON_ONCE_PER_WEEK = true,  -- Set to false to bypass the limit of one garrison per Conquest Tally Week.
     GARRISON_PARTY_LIMIT   = 18,    -- Set to max party members you want to do garrison (default: 18).
-    GARRISON_NATION_BYPASS = false, -- Set to true to bypass the nation requirement.
+    GARRISON_NATION_BYPASS = true, -- Set to true to bypass the nation requirement.
     GARRISON_RANK          = 2,     -- Set to minumum Nation Rank to start Garrison (default: 2).
 
     -- DYNAMIS SETTINGS
-    BETWEEN_2DYNA_WAIT_TIME     = 24,       -- Hours before player can re-enter Dynamis. Default is 1 Earthday (24 hours).
+    BETWEEN_2DYNA_WAIT_TIME     = 72,       -- Hours before player can re-enter Dynamis. Default is 1 Earthday (24 hours).
     DYNA_MIDNIGHT_RESET         = true,     -- If true, makes the wait time count by number of server midnights instead of full 24 hour intervals
     DYNA_LEVEL_MIN              = 65,       -- Level min for entering in Dynamis
     TIMELESS_HOURGLASS_COST     = 500000,   -- Refund for the timeless hourglass for Dynamis.
@@ -233,8 +233,8 @@ xi.settings.main =
     AF1_QUEST_LEVEL = 40,    -- Minimum level to start AF1 quest
     AF2_QUEST_LEVEL = 50,    -- Minimum level to start AF2 quest
     AF3_QUEST_LEVEL = 50,    -- Minimum level to start AF3 quest
-    OLDSCHOOL_G1    = false, -- Set to true to require farming Exoray Mold, Bombd Coal, and Ancient Papyrus drops instead of allowing key item method.
-    OLDSCHOOL_G2    = false, -- Set true to require the NMs for 'Atop the Highest Mountains' be dead to get KI like before SE changed it.
+    OLDSCHOOL_G1    = true, -- Set to true to require farming Exoray Mold, Bombd Coal, and Ancient Papyrus drops instead of allowing key item method.
+    OLDSCHOOL_G2    = true, -- Set true to require the NMs for 'Atop the Highest Mountains' be dead to get KI like before SE changed it.
     FRIGICITE_TIME  = 30,    -- When OLDSCHOOL_G2 is enabled, this is the time (in seconds) you have from killing Boreal NMs to click the '???' target.
     ASSAULT_MINIMUM = 1,     -- Minimum amount of people needed to start an assault mission. TOAU era is 3, Default is 1.
 
@@ -246,7 +246,7 @@ xi.settings.main =
     USE_OLD_COUNTERSTANCE           = false, -- true/false. if true, Counterstance DEF = 1 + VIT/2 (+ Minne); gear/Protect ignored
 
     -- CELEBRATIONS
-    EXPLORER_MOOGLE_LV              = 10, -- Enables Explorer Moogle teleports and sets required level. Zero to disable.
+    EXPLORER_MOOGLE_LV              = 0, -- Enables Explorer Moogle teleports and sets required level. Zero to disable.
     HALLOWEEN_2005                  = 0,  -- Set to 1 to Enable the 2005 version of Harvest Festival, will start on Oct. 20 and end Nov. 1.
     HALLOWEEN_YEAR_ROUND            = 0,  -- Set to 1 to have Harvest Festival initialize outside of normal times.
     EGG_HUNT                        =
@@ -292,8 +292,8 @@ xi.settings.main =
     MAX_FAKE_ENTRIES     = 15,
 
     -- NYZUL
-    NYZUL_ENABLED        = false, -- true/false. Enable Nyzul Isle content and functionality.
-    RUNIC_DISK_SAVE      = true,  -- Allow anyone participating in Nyzul to save progress. Set to false so only initiator can save progress.
+    NYZUL_ENABLED        = true, -- true/false. Enable Nyzul Isle content and functionality.
+    RUNIC_DISK_SAVE      = false,  -- Allow anyone participating in Nyzul to save progress. Set to false so only initiator can save progress.
     ENABLE_NYZUL_CASKETS = true,  -- Enable Treasure casket pops from NMs.
     ENABLE_VIGIL_DROPS   = true,  -- Enable Vigil Weapon drops from NMs.
     ACTIVATE_LAMP_TIME   = 6000,  -- Time in miliseconds for lamps to stay lit. TODO: Get retail confirmation.
@@ -326,8 +326,8 @@ xi.settings.main =
     FORCE_SPAWN_QM_RESET_TIME    = 300,   -- Number of seconds the ??? remains hidden for after the despawning of the mob it force spawns.
     EQUIP_FROM_OTHER_CONTAINERS  = false, -- true/false. Allows equipping items from Mog Satchel, Sack, and Case. Only possible with the use of client addons.
     REGIME_REWARD_THRESHOLD      = 15,    -- If the player is more than N levels below the minimum suggested range, do not award experience.
-    PERSIST_SEAL_TIMERS          = false, -- Persist seal (Beastmen/Kindred) recast timers across zone changes and logout.
-    GUILD_SHOP_HOLIDAYS          = false, -- true/false. Close each guild shop on its weekly holiday.
+    PERSIST_SEAL_TIMERS          = true, -- Persist seal (Beastmen/Kindred) recast timers across zone changes and logout.
+    GUILD_SHOP_HOLIDAYS          = true, -- true/false. Close each guild shop on its weekly holiday.
 
     -- SYSTEM
     DISABLE_INACTIVITY_WATCHDOG = false, -- true/false. If this is enabled, the watchdog which detects if the main loop isn't being ticked will no longer be able to kill the process.

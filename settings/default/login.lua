@@ -26,7 +26,7 @@ xi.settings.login =
     MAINT_MODE = 0,
 
     -- Logging of user IP address to database (true/false)
-    LOG_USER_IP = false,
+    LOG_USER_IP = true,
 
     -- Allow account creation via the loader (true/false)
     ACCOUNT_CREATION = true,
@@ -38,7 +38,7 @@ xi.settings.login =
     CHARACTER_CREATION = true,
 
     -- Number of simultaneous game sessions per IP (0 for no limit)
-    LOGIN_LIMIT = 0,
+    LOGIN_LIMIT = 1,
 
     -- Expansion display on the client's login screen. This does NOT effect in game content whatsoever!
     RISE_OF_ZILART          = true,
@@ -63,7 +63,7 @@ xi.settings.login =
     MOG_WARDROBE_8 = true,
 
     -- If true, blocks character creation with names of NPCs and Mobs in the database (Fafnir, Shantotto, etc.)
-    DISABLE_MOB_NPC_CHAR_NAMES = false,
+    DISABLE_MOB_NPC_CHAR_NAMES = true,
 
     -- Character names with any of these words in, in any position, will be rejected
     --
