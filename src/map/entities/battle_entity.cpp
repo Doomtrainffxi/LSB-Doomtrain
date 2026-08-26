@@ -1752,6 +1752,9 @@ void CBattleEntity::SetSLevel(uint8 slvl)
             case 3: // equal (75/75, 99/99)
                 m_slvl = (slvl > m_mlvl ? (m_mlvl == 1 ? 1 : m_mlvl) : slvl);
                 break;
+            case 4: // Doomtrain Custom, allows SJ to go higher than MJ.
+                m_slvl = slvl
+                break;
             default: // Error
                 ShowError("Error setting subjob level: Invalid ratio '%s' check your settings file!", ratio);
                 break;
