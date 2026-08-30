@@ -136,6 +136,8 @@
 #include "packets/s2c/0x111_roe_activelog.h"
 #include "packets/s2c/0x112_roe_log.h"
 
+#include "moduleutils.h"
+
 /************************************************************************
  *                                                                       *
  *  Experience tables                                                    *
@@ -219,6 +221,11 @@ namespace charutils
 
 void CalculateStats(CCharEntity* PChar)
 {
+    if (moduleutils::OnCalculateStats(PChar))
+    {
+        return;
+    }
+    
     float raceStat  = 0; // The final HP number for a race-based level.
     float jobStat   = 0; // Estimate HP level for the level based on the primary profession.
     float sJobStat  = 0; // HP final number for a level based on a secondary profession.
@@ -4721,6 +4728,13 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
             input.chainNumber        = PMember->expChain.chainNumber;
             input.chainActive        = chainActive;
 
+            // Doomtrain EXP Override Hook
+            moduleutils::OnCalculateDoomtrainExperience(
+                PMember,
+                PMob,
+                input.baseExp
+            );
+
             const auto calcExpResult = luautils::CalculateExperiencePoints(PMember, PMob, input);
             if (!calcExpResult)
             {
@@ -5212,6 +5226,9 @@ void AddExperiencePoints(bool expFromRaise, bool awardRegionPoints, bool fromScr
                 PChar->jobs.exp[static_cast<uint8>(PChar->GetMJob())] = GetExpNEXTLevel(PChar->jobs.job[static_cast<uint8>(PChar->GetMJob())] + 1) - 1;
             }
             PChar->jobs.job[static_cast<uint8>(PChar->GetMJob())] += 1;
+
+            // Doomtrain Custom Level up Hook
+            moduleutils::OnLevelUp(PChar);
 
             if (PChar->m_LevelRestriction == 0 || PChar->m_LevelRestriction > PChar->GetMLevel())
             {

@@ -38,4 +38,6 @@
 #
 # Live example:
 
-custom/lua/test_npcs_in_gm_home.lua
+doomtrain/lua/doomtrain_command.lua
+
+doomtrain/cpp/doomtrain_basestats.cpp

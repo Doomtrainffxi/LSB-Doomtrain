@@ -27,8 +27,14 @@
 #include <string>
 #include <string_view>
 
+#include <functional>
+
 // Forward declare
 class CPPModule;
+
+// Doomtrain declare
+class CCharEntity;
+class CMobEntity;
 
 namespace moduleutils
 {
@@ -89,6 +95,32 @@ void OnCharZoneIn(CCharEntity* PChar);
 void OnCharZoneOut(CCharEntity* PChar);
 void OnPushPacket(CCharEntity* PChar, const std::unique_ptr<CBasicPacket>& packet);
 auto OnIncomingPacket(MapSession* PSession, CCharEntity* PChar, CBasicPacket& packet) -> bool;
+
+// Doomtrain custom stat calculation hook
+using CalculateStatsFunc = std::function<bool(CCharEntity*)>;
+
+void RegisterCalculateStatsHandler(CalculateStatsFunc handler);
+auto OnCalculateStats(CCharEntity* PChar) -> bool;
+
+// Doomtrain level-up hook
+using LevelUpFunc = std::function<void(CCharEntity*)>;
+
+void RegisterLevelUpHandler(LevelUpFunc handler);
+void OnLevelUp(CCharEntity* PChar);
+
+// Doomtrain calculate EXP hook
+using CalculateDoomtrainExperienceHandler =
+    std::function<void(CCharEntity*, CMobEntity*, uint32&)>;
+
+void RegisterCalculateDoomtrainExperienceHandler(
+    CalculateDoomtrainExperienceHandler handler
+);
+
+void OnCalculateDoomtrainExperience(
+    CCharEntity* PChar,
+    CMobEntity* PMob,
+    uint32& baseExp
+);
 
 // The program has two "states":
 // - Load-time: As all data is being loaded and init'd

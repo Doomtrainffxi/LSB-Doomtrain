@@ -32,6 +32,8 @@
 #include <string>
 #include <unordered_set>
 
+#include <utility>
+
 #include <fmt/ranges.h>
 
 namespace
@@ -50,6 +52,13 @@ namespace moduleutils
 
 namespace
 {
+
+    // Doomtrain Custom Modules
+    CalculateStatsFunc g_CalculateStatsHandler;
+    LevelUpFunc g_LevelUpHandler;
+    std::vector<CalculateDoomtrainExperienceHandler>
+    g_CalculateDoomtrainExperienceHandlers;
+    
 
 struct Override
 {
@@ -222,6 +231,55 @@ void RegisterCPPModule(CPPModule* ptr)
 {
     cppModules().emplace_back(ptr);
 }
+
+// Doomtrain Custom Module Stuff
+void RegisterCalculateStatsHandler(CalculateStatsFunc handler)
+{
+    g_CalculateStatsHandler = std::move(handler);
+}
+
+auto OnCalculateStats(CCharEntity* PChar) -> bool
+{
+    if (g_CalculateStatsHandler)
+    {
+        return g_CalculateStatsHandler(PChar);
+    }
+
+    return false;
+}
+void RegisterLevelUpHandler(LevelUpFunc handler)
+{
+    g_LevelUpHandler = std::move(handler);
+}
+
+void OnLevelUp(CCharEntity* PChar)
+{
+    if (g_LevelUpHandler)
+    {
+        g_LevelUpHandler(PChar);
+    }
+}
+
+void RegisterCalculateDoomtrainExperienceHandler(
+    CalculateDoomtrainExperienceHandler handler)
+{
+    g_CalculateDoomtrainExperienceHandlers.emplace_back(
+        std::move(handler)
+    );
+}
+
+void moduleutils::OnCalculateDoomtrainExperience(
+    CCharEntity* PChar,
+    CMobEntity* PMob,
+    uint32& baseExp)
+{
+    for (auto& handler : g_CalculateDoomtrainExperienceHandlers)
+    {
+        handler(PChar, PMob, baseExp);
+    }
+}
+
+// End Doomtrain
 
 void OnInit()
 {
