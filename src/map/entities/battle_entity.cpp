@@ -1752,7 +1752,10 @@ void CBattleEntity::SetSLevel(uint8 slvl)
             case 3: // equal (75/75, 99/99)
                 m_slvl = (slvl > m_mlvl ? (m_mlvl == 1 ? 1 : m_mlvl) : slvl);
                 break;
-            case 4: // Doomtrain Custom, allows SJ to go higher than MJ.
+            case 4:
+                // Doomtrain custom progression:
+                // Subjob level is completely independent of main job level.
+                // Use the level loaded from the database without applying a ratio.
                 m_slvl = slvl;
                 break;
             default: // Error

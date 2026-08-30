@@ -1,4 +1,4 @@
-#include "map/utils/moduleutils.h"
+﻿#include "map/utils/moduleutils.h"
 #include "map/utils/charutils.h"
 
 #include "common/logging.h"
@@ -38,6 +38,27 @@ namespace
 
     auto CalculateCustomStats(CCharEntity* PChar) -> bool
     {
+        const int32 baseStatMin =
+            settings::get<int32>("doomtrain.BASE_STAT_MIN");
+
+        const int32 baseStatMax =
+            settings::get<int32>("doomtrain.BASE_STAT_MAX");
+        
+        const int32 maxStatPurchases =
+            baseStatMax - baseStatMin;
+
+        const int32 maximumPurchases =
+            maxStatPurchases * 7;
+        
+        const double maxSPPerStat =
+        (
+            static_cast<double>(baseStatMin + 1) +
+            static_cast<double>(baseStatMax)
+        )
+        *
+        static_cast<double>(maxStatPurchases)
+        / 2.0;
+        
         const uint16 dt_str = PChar->getCharVar("doomtrain_str");
         const uint16 dt_dex = PChar->getCharVar("doomtrain_dex");
         const uint16 dt_vit = PChar->getCharVar("doomtrain_vit");
@@ -45,6 +66,27 @@ namespace
         const uint16 dt_int = PChar->getCharVar("doomtrain_int");
         const uint16 dt_mnd = PChar->getCharVar("doomtrain_mnd");
         const uint16 dt_chr = PChar->getCharVar("doomtrain_chr");
+
+        const int32 strPurchases =
+            std::clamp<int32>(dt_str, 0, maxStatPurchases);
+
+        const int32 dexPurchases =
+            std::clamp<int32>(dt_dex, 0, maxStatPurchases);
+
+        const int32 vitPurchases =
+            std::clamp<int32>(dt_vit, 0, maxStatPurchases);
+
+        const int32 agiPurchases =
+            std::clamp<int32>(dt_agi, 0, maxStatPurchases);
+
+        const int32 intPurchases =
+            std::clamp<int32>(dt_int, 0, maxStatPurchases);
+
+        const int32 mndPurchases =
+            std::clamp<int32>(dt_mnd, 0, maxStatPurchases);
+
+        const int32 chrPurchases =
+            std::clamp<int32>(dt_chr, 0, maxStatPurchases);
 
         //--------------------------------------------------
         // Base stats
@@ -66,44 +108,58 @@ namespace
         // is exactly the number of base-stat purchases.
         //--------------------------------------------------
 
-        const uint32 totalStatPurchases =
-            dt_str +
-            dt_dex +
-            dt_vit +
-            dt_agi +
-            dt_int +
-            dt_mnd +
-            dt_chr;
+        const int32 totalStatPurchases =
+            strPurchases +
+            dexPurchases +
+            vitPurchases +
+            agiPurchases +
+            intPurchases +
+            mndPurchases +
+            chrPurchases;
 
         //--------------------------------------------------
         // Total SP spent on base stats
         //--------------------------------------------------
 
-        const uint32 strSP = GetStatSPValue(PChar->stats.STR);
-        const uint32 dexSP = GetStatSPValue(PChar->stats.DEX);
-        const uint32 vitSP = GetStatSPValue(PChar->stats.VIT);
-        const uint32 agiSP = GetStatSPValue(PChar->stats.AGI);
-        const uint32 intSP = GetStatSPValue(PChar->stats.INT);
-        const uint32 mndSP = GetStatSPValue(PChar->stats.MND);
-        const uint32 chrSP = GetStatSPValue(PChar->stats.CHR);
+        const auto calculateStatSPSpent =
+            [baseStatMin](int32 purchases) -> double
+        {
+            if (purchases <= 0)
+            {
+                return 0.0;
+            }
 
-        //--------------------------------------------------
-        // HP
-        //
-        // Base HP: 40
-        //
-        // HP growth is based on SP invested into each stat,
-        // while preserving different stat weights.
-        //--------------------------------------------------
+            const double firstCost =
+                static_cast<double>(baseStatMin + 1);
 
-        const double weightedSP =
-        (strSP * 5.0) +
-        (dexSP * 6.0) +
-        (vitSP * 10.0) +
-        (agiSP * 8.0) +
-        (intSP * 3.0) +
-        (mndSP * 5.0) +
-        (chrSP * 3.0);
+            const double lastCost =
+                static_cast<double>(baseStatMin + purchases);
+
+            return (firstCost + lastCost)
+                * static_cast<double>(purchases)
+                / 2.0;
+        };
+
+        const double strSpent =
+            calculateStatSPSpent(strPurchases);
+
+        const double dexSpent =
+            calculateStatSPSpent(dexPurchases);
+
+        const double vitSpent =
+            calculateStatSPSpent(vitPurchases);
+
+        const double agiSpent =
+            calculateStatSPSpent(agiPurchases);
+
+        const double intSpent =
+            calculateStatSPSpent(intPurchases);
+
+        const double mndSpent =
+            calculateStatSPSpent(mndPurchases);
+
+        const double chrSpent =
+            calculateStatSPSpent(chrPurchases);
 
         //--------------------------------------------------
         // HP Scaling
@@ -118,11 +174,32 @@ namespace
         // Maximum stats = 9,999 HP.
         //--------------------------------------------------
 
-        constexpr double startingHP = 40.0;
-        constexpr double maximumHP  = 9999.0;
+        const double startingHP =
+            settings::get<float>("doomtrain.STARTING_HP");
 
-        // 7 stats × 254 purchases each.
-        constexpr double maximumPurchases = 1778.0;
+        const double maximumHP =
+            settings::get<float>("doomtrain.MAX_HP");
+
+        const double strHPWeight =
+            settings::get<float>("doomtrain.STR_HP_WEIGHT");
+
+        const double dexHPWeight =
+            settings::get<float>("doomtrain.DEX_HP_WEIGHT");
+
+        const double vitHPWeight =
+            settings::get<float>("doomtrain.VIT_HP_WEIGHT");
+
+        const double agiHPWeight =
+            settings::get<float>("doomtrain.AGI_HP_WEIGHT");
+
+        const double intHPWeight =
+            settings::get<float>("doomtrain.INT_HP_WEIGHT");
+
+        const double mndHPWeight =
+            settings::get<float>("doomtrain.MND_HP_WEIGHT");
+
+        const double chrHPWeight =
+            settings::get<float>("doomtrain.CHR_HP_WEIGHT");
 
         // Every purchase receives at least 1 HP.
         const double guaranteedHP =
@@ -130,23 +207,32 @@ namespace
 
         // HP remaining after starting HP and guaranteed
         // +1-per-purchase growth.
-        constexpr double weightedHPRange =
+        const double weightedHPRange =
             maximumHP -
             startingHP -
             maximumPurchases;
 
+        const double currentWeightedSP =
+            (strSpent * strHPWeight) +
+            (dexSpent * dexHPWeight) +
+            (vitSpent * vitHPWeight) +
+            (agiSpent * agiHPWeight) +
+            (intSpent * intHPWeight) +
+            (mndSpent * mndHPWeight) +
+            (chrSpent * chrHPWeight);
+
         // Maximum possible weighted SP investment.
-        constexpr double maxWeightedSP =
-            (32639.0 * 5.0) +
-            (32639.0 * 6.0) +
-            (32639.0 * 9.212) +
-            (32639.0 * 8.0) +
-            (32639.0 * 3.0) +
-            (32639.0 * 5.0) +
-            (32639.0 * 3.0);
+        const double maxWeightedSP =
+            (maxSPPerStat * strHPWeight) +
+            (maxSPPerStat * dexHPWeight) +
+            (maxSPPerStat * vitHPWeight) +
+            (maxSPPerStat * agiHPWeight) +
+            (maxSPPerStat * intHPWeight) +
+            (maxSPPerStat * mndHPWeight) +
+            (maxSPPerStat * chrHPWeight);
 
         const double weightedHP =
-            (weightedSP / maxWeightedSP) *
+            (currentWeightedSP / maxWeightedSP) *
             weightedHPRange;
 
         PChar->health.maxhp = static_cast<uint32>(
@@ -157,14 +243,102 @@ namespace
             )
         );
         
-        //--------------------------------------------------
-        // MP
-        //--------------------------------------------------
+        // =========================================================
+        // MP CALCULATION
+        // =========================================================
 
-        PChar->health.maxmp = std::ceil(
-            ((1 + dt_int) * 1.5) +
-            ((1 + dt_mnd) * 1.915) +
-            ((1 + dt_chr) * 0.5)
+        const double startingMP =
+            settings::get<float>("doomtrain.STARTING_MP");
+
+        const double maximumMP =
+            settings::get<float>("doomtrain.MAX_MP");
+
+        const double strMPWeight =
+            settings::get<float>("doomtrain.STR_MP_WEIGHT");
+
+        const double dexMPWeight =
+            settings::get<float>("doomtrain.DEX_MP_WEIGHT");
+
+        const double vitMPWeight =
+            settings::get<float>("doomtrain.VIT_MP_WEIGHT");
+
+        const double agiMPWeight =
+            settings::get<float>("doomtrain.AGI_MP_WEIGHT");
+
+        const double intMPWeight =
+            settings::get<float>("doomtrain.INT_MP_WEIGHT");
+
+        const double mndMPWeight =
+            settings::get<float>("doomtrain.MND_MP_WEIGHT");
+
+        const double chrMPWeight =
+            settings::get<float>("doomtrain.CHR_MP_WEIGHT");
+
+
+        // ---------------------------------------------------------
+        // Maximum Possible Weighted MP Investment
+        // ---------------------------------------------------------
+        //
+        // Each stat can receive 254 purchases:
+        //
+        // displayed stat: 1 -> 255
+        // char var:       0 -> 254
+        //
+        // Only stats with a non-zero MP weight contribute.
+
+        const double maxStatPurchasesDouble =
+            static_cast<double>(maxStatPurchases);
+
+        const double maxWeightedMP =
+            (maxStatPurchasesDouble * strMPWeight) +
+            (maxStatPurchasesDouble * dexMPWeight) +
+            (maxStatPurchasesDouble * vitMPWeight) +
+            (maxStatPurchasesDouble * agiMPWeight) +
+            (maxStatPurchasesDouble * intMPWeight) +
+            (maxStatPurchasesDouble * mndMPWeight) +
+            (maxStatPurchasesDouble * chrMPWeight);
+
+
+        // ---------------------------------------------------------
+        // Current Weighted MP Investment
+        // ---------------------------------------------------------
+
+        const double currentWeightedMP =
+            (strPurchases * strMPWeight) +
+            (dexPurchases * dexMPWeight) +
+            (vitPurchases * vitMPWeight) +
+            (agiPurchases * agiMPWeight) +
+            (intPurchases * intMPWeight) +
+            (mndPurchases * mndMPWeight) +
+            (chrPurchases * chrMPWeight);
+
+
+        // ---------------------------------------------------------
+        // Scale Weighted Investment Into MP Range
+        // ---------------------------------------------------------
+
+        double maxMP = startingMP;
+
+        if (maxWeightedMP > 0.0)
+        {
+            const double mpProgress =
+                currentWeightedMP / maxWeightedMP;
+
+            maxMP +=
+                mpProgress * (maximumMP - startingMP);
+        }
+
+
+        // ---------------------------------------------------------
+        // Apply Final MP
+        // ---------------------------------------------------------
+
+        PChar->health.maxmp = static_cast<int32>(
+            std::clamp(
+                std::floor(maxMP),
+                startingMP,
+                maximumMP
+            )
         );
                 
         return true;
