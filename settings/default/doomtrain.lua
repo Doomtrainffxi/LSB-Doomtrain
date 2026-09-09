@@ -49,6 +49,8 @@ xi.settings.doomtrain =
     -- Experience Points
     -----------------------------------
     
-    BASE_EXP_BONUS = 10,
-    MIN_EXP        = 1,
+    EVEN_MATCH_BASE_EXP    = 50,
+    STAT_EXP_MODIFIER    = 5,
+    EXP_UNUSED_SP_MODIFIER  = 5,
+    MIN_EXP        = 0,
 }

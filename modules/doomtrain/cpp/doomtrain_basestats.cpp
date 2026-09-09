@@ -17,25 +17,6 @@ namespace
      *                                                                       *
      ************************************************************************/
 
-    auto GetStatSPValue(uint16 stat) -> uint32
-    {
-        // A base stat of 1 requires 0 SP.
-        //
-        // 1 -> 2 costs 2 SP
-        // 2 -> 3 costs 3 SP
-        // ...
-        //
-        // Total SP required to reach a stat value:
-        // (stat * (stat + 1) / 2) - 1
-
-        if (stat <= 1)
-        {
-            return 0;
-        }
-
-        return (stat * (stat + 1) / 2) - 1;
-    }
-
     auto CalculateCustomStats(CCharEntity* PChar) -> bool
     {
         const int32 baseStatMin =
@@ -390,25 +371,31 @@ namespace
         uint32& baseExp)
     {
         //--------------------------------------------------
-        // Player Total SP
+        // Player Total Stats
         //--------------------------------------------------
 
-        const uint32 playerTotalSP =
-            PChar->getCharVar("doomtrain_sp_total");
+        const uint32 playerTotalStats = 7 +
+            PChar->getCharVar("doomtrain_str") +
+            PChar->getCharVar("doomtrain_dex") +
+            PChar->getCharVar("doomtrain_vit") +
+            PChar->getCharVar("doomtrain_agi") +
+            PChar->getCharVar("doomtrain_int") +
+            PChar->getCharVar("doomtrain_mnd") +
+            PChar->getCharVar("doomtrain_chr");
 
         //--------------------------------------------------
-        // Monster Total SP
+        // Monster Total Stats
         //--------------------------------------------------
 
-        uint32 mobTotalSP = 0;
+        uint32 mobTotalStats = 0;
 
-        mobTotalSP += GetStatSPValue(PMob->stats.STR);
-        mobTotalSP += GetStatSPValue(PMob->stats.DEX);
-        mobTotalSP += GetStatSPValue(PMob->stats.VIT);
-        mobTotalSP += GetStatSPValue(PMob->stats.AGI);
-        mobTotalSP += GetStatSPValue(PMob->stats.INT);
-        mobTotalSP += GetStatSPValue(PMob->stats.MND);
-        mobTotalSP += GetStatSPValue(PMob->stats.CHR);
+        mobTotalStats += PMob->stats.STR;
+        mobTotalStats += PMob->stats.DEX;
+        mobTotalStats += PMob->stats.VIT;
+        mobTotalStats += PMob->stats.AGI;
+        mobTotalStats += PMob->stats.INT;
+        mobTotalStats += PMob->stats.MND;
+        mobTotalStats += PMob->stats.CHR;
 
         //--------------------------------------------------
         // Doomtrain EXP Formula
@@ -416,26 +403,26 @@ namespace
         // EXP = 10 + Mob Total SP - Player Total SP
         //--------------------------------------------------
 
-        int64 calculatedExp =
-            10 +
-            static_cast<int64>(mobTotalSP) -
-            static_cast<int64>(playerTotalSP);
+        const int32 even_match_base_exp =
+            settings::get<int32>("doomtrain.EVEN_MATCH_BASE_EXP");
 
-        // Never allow zero or negative EXP.
-        calculatedExp = std::max<int64>(1, calculatedExp);
+        const int32 statExpModifier =
+            settings::get<int32>("doomtrain.STAT_EXP_MODIFIER");
 
-        baseExp = static_cast<uint32>(calculatedExp);
+        const int32 minimumExp =
+            settings::get<int32>("doomtrain.MIN_EXP");
 
-        //--------------------------------------------------
-        // Temporary balancing/debug output
-        //--------------------------------------------------
+        const int32 statDifference =
+            static_cast<int32>(mobTotalStats) -
+            static_cast<int32>(playerTotalStats);
 
-        ShowInfoFmt(
-            "Doomtrain EXP | Player SP: {} | Mob SP: {} | EXP: {}",
-            playerTotalSP,
-            mobTotalSP,
-            baseExp
-        );
+        const int32 calculatedExp =
+            even_match_base_exp + statDifference * statExpModifier;
+
+        baseExp = static_cast<uint32>(std::max(
+            minimumExp,
+            calculatedExp));
+
     }
 }
 
